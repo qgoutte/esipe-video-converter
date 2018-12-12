@@ -25,4 +25,7 @@ rabbitmq-server:
     password: pize
 
 google-cloud:
-  topic: my-topic
+  pubsub:
+    topic: my-topic
+    subscriptionname: video-sub
+    projectid: esipe-alp-video
