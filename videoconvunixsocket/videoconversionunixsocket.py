@@ -38,10 +38,6 @@ class VideoConversionUnixSocket(Thread) :
                     if "_STATUS_" == consuming_request :
                         client.send(self.video_messaging.is_consuming().encode())
                         logging.info("Replying %s", self.video_messaging.is_consuming() )
-
-
-            # client.send(str(self.pid).encode())
-            # client.send(str(self.pid).encode())
             client.close()
 
     def setVideoConversionMessaging(self, _video_messaging):

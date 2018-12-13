@@ -14,6 +14,7 @@ if __name__ == '__main__':
     logging.basicConfig(format='%(asctime)s - %(levelname)s: %(message)s', level=logging.DEBUG)
     configuration = Configuration()
 
+    #RABBIT & MONGO
     #logging.info(configuration.get_rabbitmq_host())
     #logging.info(configuration.get_rabbitmq_port())
     #logging.info(configuration.get_messaging_conversion_queue())
@@ -25,6 +26,7 @@ if __name__ == '__main__':
     video_unix_socket.start()
 
     database = VideoConversionDynamoDB(configuration)
+    #MONGODB
     #video_conversion_service = VideoConversion(configuration)
     conversion = VideoConversion(configuration)
     video_messaging = VideoConversionMessaging(configuration, database)

@@ -13,27 +13,8 @@ logging.basicConfig(format='%(asctime)s - %(levelname)s: %(message)s', level=log
 # rabbitmqadmin -H localhost -u ezip -p pize -V ezip get queue=video-conversion-queue
 
 class VideoConversionMessaging(Thread):
-#    def __init__(self, _config_, converting_service):
-#        Thread.__init__(self)
-#        self.credentials = pika.credentials.PlainCredentials(
-#                                _config_.get_rabbitmq_username(),
-#                                _config_.get_rabbitmq_password())
-#        self.connection = pika.BlockingConnection(
-#                            pika.ConnectionParameters(
-#                                _config_.get_rabbitmq_host(),
-#                                _config_.get_rabbitmq_port(),
-#                                _config_.get_rabbitmq_vhost(),
-#                                self.credentials))
-#        self.channel = self.connection.channel()
-#        self.rmq = _config_.get_messaging_conversion_queue()
-#        # self.channel.basic_consume(self.on_message, self.rmq, no_ack=True)
-#        self.converting_service = converting_service
-#        self.consuming = "_CONSUMING_"
-#        self.rendez_vous = queue.Queue(1)
-#        self.pause = queue.Queue(1)
-#        self.start()
 
-    def __init__(self, _config_,db_service, conv_service):
+    def __init__(self, _config_,db_service):
         project_id = _config_.get_project_id()
         subscription_name = _config_.get_subcription_name()
         subscriber = pubsub_v1.SubscriberClient()
@@ -49,19 +30,6 @@ class VideoConversionMessaging(Thread):
         logging.info("Listen message on :".format(subscription_path))
         while True:
             time.sleep(60)
-
-
-
-        #self.channel = self.connection.channel()
-        #self.rmq = _config_.get_messaging_conversion_queue()
-        # self.channel.basic_consume(self.on_message, self.rmq, no_ack=True)
-        #self.converting_service = converting_service
-        #self.consuming = "_CONSUMING_"
-        #self.rendez_vous = queue.Queue(1)
-        #self.pause = queue.Queue(1)
-        #self.start()
-
-
 
     #def run(self):
      #   while True : # "_CONSUMING_" == self.consuming :
