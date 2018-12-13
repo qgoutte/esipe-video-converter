@@ -4,7 +4,7 @@ from google.cloud import pubsub_v1
 from threading import Thread
 import logging
 import json
-import queue
+from database.dynamodb import videoconversiondynamodb
 
 logging.basicConfig(format='%(asctime)s - %(levelname)s: %(message)s', level=logging.DEBUG)
 #logging.getLogger("pika").setLevel(logging.INFO)
@@ -33,19 +33,24 @@ class VideoConversionMessaging(Thread):
 #        self.pause = queue.Queue(1)
 #        self.start()
 
-    def __init__(self, _config_, converting_service):
+    def __init__(self, _config_,db_service, conv_service):
         project_id = _config_.get_project_id()
         subscription_name = _config_.get_subcription_name()
-        Thread.__init__(self)
         subscriber = pubsub_v1.SubscriberClient()
         subscription_path = subscriber.subscription_path(project_id, subscription_name)
         def callback(message):
             logging.info("Received message :".format(message))
+            data = json.loads(message.data.decode('utf-8'))
+            db_service.convert(message['originPath'])
+            db_service.update_status(data['uuid'], 'done')
             message.ack()
+
         subscriber.subscribe(subscription_path, callback=callback)
         logging.info("Listen message on :".format(subscription_path))
         while True:
             time.sleep(60)
+
+
 
         #self.channel = self.connection.channel()
         #self.rmq = _config_.get_messaging_conversion_queue()

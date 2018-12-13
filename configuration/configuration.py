@@ -55,3 +55,18 @@ class Configuration(object):
 
     def get_subscription_name(self):
         return self.configuration_data['google-cloud']['pubsub']['subscriptionname']
+
+    def get_db_table(self):
+        return self.configuration_data['aws']['db']['table']
+
+    def get_db_region(self):
+        return self.configuration_data['aws']['db']['region']
+
+    def get_db_name(self):
+        return self.configuration_data['aws']['db']['name']
+
+    def get_s3_name(self):
+        return self.configuration_data['aws']['s3']['name']
+
+    def get_s3_region(self):
+        return self.configuration_data['aws']['s3']['region']

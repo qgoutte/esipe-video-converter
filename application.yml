@@ -29,3 +29,12 @@ google-cloud:
     topic: my-topic
     subscriptionname: video-sub
     projectid: esipe-alp-video
+
+aws:
+  db:
+    name: dynamodb
+    table: film
+    region: eu-west-3
+  s3:
+    name: edu.esipe.i3.ezipflix
+    region: eu-west-3

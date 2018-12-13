@@ -3,6 +3,7 @@
 import logging
 
 from configuration.configuration import Configuration
+from database.dynamodb.videoconversiondynamodb import VideoConversionDynamoDB
 from messaging.videoconversionmessaging import VideoConversionMessaging
 from database.mongodb.videoconversion import VideoConversion
 from videoconvunixsocket.videoconversionunixsocket import VideoConversionUnixSocket
@@ -22,7 +23,14 @@ if __name__ == '__main__':
 
     video_unix_socket = VideoConversionUnixSocket()
     video_unix_socket.start()
-    video_conversion_service = VideoConversion(configuration)
-    video_messaging = VideoConversionMessaging(configuration, video_conversion_service)
+
+    database = VideoConversionDynamoDB(configuration)
+    #video_conversion_service = VideoConversion(configuration)
+    conversion = VideoConversion(configuration)
+    video_messaging = VideoConversionMessaging(configuration, database)
     video_unix_socket.setVideoConversionMessaging(video_messaging)
+
+
+
+
 
