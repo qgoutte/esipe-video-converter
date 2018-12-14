@@ -26,7 +26,7 @@ rabbitmq-server:
 
 google-cloud:
   pubsub:
-    topic: my-topic
+    topic: video-status
     subscriptionname: video-sub
     projectid: esipe-alp-video
 

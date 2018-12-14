@@ -9,7 +9,7 @@ import decimal
 logging.basicConfig(format='%(asctime)s - %(levelname)s: %(message)s', level=logging.DEBUG)
 
 class VideoConversionDynamoDB(object):
-    def _init_(self,_config_):
+    def _init_(self, _config_):
         dynamodb = boto3.resource(_config_.get_db_name(), region_name=_config_.get_db_region())
         self.table = dynamodb.Table(_config_.get_database_table())
         logging.info(self.table.creation_date_time)

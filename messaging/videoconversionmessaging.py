@@ -14,22 +14,39 @@ logging.basicConfig(format='%(asctime)s - %(levelname)s: %(message)s', level=log
 
 class VideoConversionMessaging(Thread):
 
-    def __init__(self, _config_,db_service):
+    def __init__(self, _config_, db_service):
+        self.db_service=db_service
         project_id = _config_.get_project_id()
-        subscription_name = _config_.get_subcription_name()
+        subscription_name = _config_.get_subscription_name()
         subscriber = pubsub_v1.SubscriberClient()
         subscription_path = subscriber.subscription_path(project_id, subscription_name)
+
+        logging.info("Subscription_path : {}"+subscription_path)
+
         def callback(message):
-            logging.info("Received message :".format(message))
-            data = json.loads(message.data.decode('utf-8'))
-            db_service.convert(message['originPath'])
-            db_service.update_status(data['uuid'], 'done')
+            logging.info("Received message : {}".format(message))
             message.ack()
+            self.processing(json.loads(message.data.decode('utf-8')))
+
 
         subscriber.subscribe(subscription_path, callback=callback)
-        logging.info("Listen message on :".format(subscription_path))
+        logging.info("Listen message on : {}".format(subscription_path))
         while True:
-            time.sleep(60)
+            time.sleep(60000)
+
+    def processing(self,_data_):
+        origin_path = _data_['originPath']
+        target_path = _data_['targetPath']
+
+        logging.info("test : {}".format(_data_))
+
+        self.db_service.update_statut(_data_['uuid'], 'IN PROGRESS')
+        try:
+            self.db_service.convert(origin_path, target_path)
+        except:
+            self.db_service.update_statut(_data_['uuid'], 'ABORTED')
+        else:
+            self.db_service.update_statut(_data_['uuid'], 'FINISHED')
 
     #def run(self):
      #   while True : # "_CONSUMING_" == self.consuming :

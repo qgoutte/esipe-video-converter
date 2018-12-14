@@ -6,7 +6,8 @@ logging.basicConfig(format='%(asctime)s - %(levelname)s: %(message)s', level=log
 
 class Configuration(object):
     def __init__(self):
-        self.configuration_file = "/home/gil/PycharmProjects/video-converter/application.yml" # Euuuuuurk !
+        #self.configuration_file = "/home/gil/PycharmProjects/video-converter/application.yml" # Euuuuuurk !
+        self.configuration_file = "C:\\Users\\Quentin\\PycharmProjects\\esipe-video-converter\\application.yml"
         self.configuration_data = None
 
         f = open(self.configuration_file, 'r')

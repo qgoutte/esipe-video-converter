@@ -1,4 +1,3 @@
-#!/usr/bin/python3.5
 
 import logging
 
@@ -11,7 +10,7 @@ from videoconvunixsocket.videoconversionunixsocket import VideoConversionUnixSoc
 
 if __name__ == '__main__':
 
-    logging.basicConfig(format='%(asctime)s - %(levelname)s: %(message)s', level=logging.DEBUG)
+    #logging.basicConfig(format='%(asctime)s - %(levelname)s: %(message)s', level=logging.DEBUG)
     configuration = Configuration()
 
     #RABBIT & MONGO
@@ -25,10 +24,10 @@ if __name__ == '__main__':
     video_unix_socket = VideoConversionUnixSocket()
     video_unix_socket.start()
 
-    database = VideoConversionDynamoDB(configuration)
+    database = VideoConversionDynamoDB()
     #MONGODB
     #video_conversion_service = VideoConversion(configuration)
-    conversion = VideoConversion(configuration)
+    #conversion = VideoConversion(configuration)
     video_messaging = VideoConversionMessaging(configuration, database)
     video_unix_socket.setVideoConversionMessaging(video_messaging)
 
