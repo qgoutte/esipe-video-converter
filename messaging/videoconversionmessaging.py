@@ -39,15 +39,16 @@ class VideoConversionMessaging(Thread):
         target_path = _data_['targetPath']
 
         logging.info("test : {}".format(_data_))
-
-        self.db_service.update_statut(_data_['uuid'], 'IN PROGRESS')
-        try:
-            self.db_service.convert(origin_path, target_path)
-        except:
-            self.db_service.update_statut(_data_['uuid'], 'ABORTED')
-        else:
-            self.db_service.update_statut(_data_['uuid'], 'FINISHED')
-
+        if _data_ is not None:
+            self.db_service.update_statut(_data_['uuid'], 'IN PROGRESS')
+            try:
+                self.db_service.convert(origin_path, target_path)
+            except:
+                self.db_service.update_statut(_data_['uuid'], 'ABORTED')
+            else:
+                self.db_service.update_statut(_data_['uuid'], 'FINISHED')
+        else :
+            logging.info("PASSING BY")
     #def run(self):
      #   while True : # "_CONSUMING_" == self.consuming :
 #            logging.info("Starts consuming on message bus before RDV")
